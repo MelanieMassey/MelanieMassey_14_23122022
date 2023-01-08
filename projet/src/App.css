@@ -26,3 +26,11 @@ margin-bottom: 10px;
 .address {
 margin-top: 10px;
 }
+
+div[role='menu'] {
+  visibility: hidden;
+}
+
+div[role='menu'].visible {
+  visibility: visible;
+}

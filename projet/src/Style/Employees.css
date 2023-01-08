@@ -1,0 +1,250 @@
+body{
+    font-family:Lato,sans-serif
+}
+
+.light{
+    color:#2a373d;
+    background-color:#fff;
+    align-items: center;
+}
+
+.dark{
+    background-color:#2a373d;
+    color:#fff
+}
+
+.listContainer{
+    width:fit-content;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:start;
+    padding:15px
+}
+
+.listContainer h1{
+    font-family:Cormorant Garamond,serif;
+    font-weight:600;
+    font-size:2.4em;
+    padding-bottom:20px;
+    align-self: center;
+}
+
+@media only screen and (min-width: 769px){
+    .listContainer{
+        max-width:none}
+}
+
+@media only screen and (min-width: 1023px){
+    .listContainer{
+        max-width:none
+    }
+
+    .listContainer-link{
+        font-size:1.1em
+    }
+    
+    .listContainer h1{
+        font-size:3em
+    }
+    
+    .listContainer-search button{
+        font-size:1em
+    }
+    
+    .listContainer-search-table td,.listContainer-search-table th{
+        font-size:1em;max-width:120px
+    }
+}
+    
+.search{
+    margin-bottom:30px;
+    opacity:85%;
+    border-radius:2px;
+    display:flex;
+    justify-content:space-between;
+    width:fit-content
+}
+
+.search label{
+    display:none
+}
+
+.search input{
+    padding:5px;
+    border:2px #c7ced1 solid;
+    background-color:#fff;
+    color:#2a373d
+}
+
+.search input:focus{
+    outline:none!important;
+    box-shadow:0 0 10px #2a373d;
+    border-color:2px #2a373d solid
+}
+
+.search button{
+    background:#2a373d;
+    color:#fff;
+    border:none;
+    padding:5px 10px;
+    border-radius:2px;
+    margin:0 10px;
+    cursor:pointer;
+    font-weight:600
+}
+
+.search button:hover{
+    color:#2a373d;
+    background:white;
+    transition:all .3s ease
+}
+
+.search button:active{
+    background:#f8f8f8
+}
+
+.table-container-pagination{
+    display:flex;
+    font-family:Lato,sans-serif;
+    margin-bottom:5px;
+    font-size:.8em;
+    font-weight:300;
+    background-color:#f0f0f0;
+    width:fit-content;
+    border-radius:2px;
+    padding:5px
+}
+
+.table-container-pagination-select{
+    display:flex
+}
+.table-container-pagination-select label{
+    padding:6px 10px;
+    background-color:#f0f0f0;
+    color:#000;
+    font-weight:400
+}
+
+.table-container-pagination-select select{
+    width:40px;
+    border:none;
+    margin:0 15px;
+    background-color:#f0f0f0
+}
+
+.table-container-pagination-select select:focus{
+    box-shadow:0 0 1pt 1pt #c7ced1;
+    outline:none!important
+}
+
+.table-container-pagination-btnContainer{
+    display:flex;
+    justify-content:space-around;
+    background-color:#f0f0f0;
+    padding:1px 10px
+}
+
+.table-container-pagination-btnContainer-currentPage{
+    font-weight:200;
+    font-size:1.2em;
+    background-color:#f0f0f0;
+    color:#2a373d;
+    padding:5px 9px;
+    border-radius:2px;
+    margin:0 3px
+}
+    
+.table-container-pagination-btnContainer-btn{
+    background-color:#f0f0f0;
+    border:none
+}
+
+.arrow-previous,.arrow-next{
+    width:11px;
+    fill:#000;
+    background-color:none;
+    margin-top:3px
+}
+
+.arrow-previous:hover,.arrow-next:hover{
+    fill:#c7ced1
+}
+
+.arrow-next{
+    transform:rotate(90deg)
+}
+
+.arrow-previous{
+    transform:rotate(270deg)
+}
+
+.table{
+    width:100%;
+    position:relative;
+    cursor:pointer
+}
+
+.table td,.table th{
+    opacity:85%;
+    height:35px;
+    width:100%;
+    font-size:.9em;
+    text-align:center;
+    justify-content:center
+}
+
+.table thead svg{
+    width:7px;
+    padding-left:6px;
+    margin-bottom:-3
+}
+
+.selectedStyle{
+    background-color:#7f6be2;
+    color:#fff
+}
+
+.sort-svg-light{
+    fill:#000
+}
+
+.sort-svg-dark{
+    fill:#fff
+}
+
+.sort-svg-light:hover{
+    fill:#5c6366;
+    transform:scale(1.1);
+    cursor:pointer
+}
+
+.sort-svg-dark:hover{
+    fill:#f8f8f8;
+    transform:scale(1.1);
+    cursor:pointer
+}
+
+.table-row-light:nth-of-type(odd){
+    background:#f8f8f8bb
+}
+
+.table-row-light:hover{
+    background-color:#f0f0f0
+}
+
+.table-row-dark:nth-of-type(odd){
+    background:#5c6366;
+    color:#fff
+}
+
+.table-row-dark:hover{
+    background-color:#5c6366;
+    color:#fff
+}
+
+@media only screen and (min-width: 1023px){
+    .table td,.table th{
+        font-size:1em
+    }
+}
