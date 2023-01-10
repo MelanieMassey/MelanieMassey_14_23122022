@@ -12,9 +12,11 @@ const employeesSlice = createSlice({
     },
 })
 
-// On extrait les actions et le reducer
+// // On extrait les actions et le reducer
 const {actions, reducer} = employeesSlice;
-// On exporte chaque action individuellement
+// // On exporte chaque action individuellement
 export const { addEmployee } = actions;
-// On exporte le reducer par défaut
+// // On exporte le reducer par défaut
 export default reducer;
+// export const {addEmployee} = employeesSlice.actions;
+export const employeesState = (state) => state;

@@ -12,6 +12,7 @@ export default function Input2({ type, name, label, value,onChange, onClick}){
                 value={value}
                 onChange={onChange}
                 onClick={onClick}
+                required 
             />
         </div>
     )

@@ -8,21 +8,39 @@ import {Modal} from "melaniem-react-modal-component";
 import { useEffect, useState, useRef } from "react";
 import React from "react";
 import { Link } from 'react-router-dom';
+import {mockedList} from '../Data/mockedEmployees';
 
 import { Calendar } from 'react-date-range';
 import format from 'date-fns/format';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
-// import useDropdownMenu from 'react-accessible-dropdown-menu-hook';
 import Select from "react-select";
 
 
-import { useDispatch } from 'react-redux';
-import { addEmployee } from '../Feature/employeesSlice';
-
 export default function Home(){
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // localStorage.removeItem('employees');
+        const employeesLocalStorage = JSON.parse(localStorage.getItem('employees'));
+        if (employeesLocalStorage){
+            setState(employeesLocalStorage)
+        } else {
+            localStorage.setItem('employees', JSON.stringify(mockedList));
+        }
+
+        // Fermeture calendriers
+        document.addEventListener("keydown", hideOnEscape, true)
+        document.addEventListener("click", hideOnClickOutside, true)
+    }, [])
+
+    // State global
+    const [state, setState] = useState({});
+    
+
+    // Récupération données formulaire "onChange"
+    const [formData, setFormData] = useState({});
+    // console.log(state);
 
     //**  Gestion de la modale **//
     const [modalOpened, setModal] = useState(false);
@@ -36,13 +54,10 @@ export default function Home(){
     /** Calendrier date de naissance **/
     // const [calendar, setCalendar] = useState(""); // => Plus besoin avec "state" et "setState"
     const [open, setOpen] = useState(false);
-    const [state, setState] = useState({});
+    
     const ref = useRef(null); // get the target element to toggle 
 
-    useEffect(() => {
-        document.addEventListener("keydown", hideOnEscape, true)
-        document.addEventListener("click", hideOnClickOutside, true)
-    }, [])
+    
 
     const hideOnEscape = (e) => {
         // console.log(e.key)
@@ -66,8 +81,8 @@ export default function Home(){
         const formattedDate = format(date, 'dd/MM/yyyy');
         // setCalendar(formattedDate); // => Plus besoin avec "state" et "setState"
         setOpen(open => !open);
-        setState({
-            ...state,
+        setFormData({
+            ...formData,
             birthDate: formattedDate
         })
     }
@@ -81,8 +96,8 @@ export default function Home(){
         const formattedDate = format(date, 'dd/MM/yyyy');
         // setCalendarStart(formattedDate); // => Plus besoin avec "state" et "setState"
         setCalendarStartOpen(open => !open);
-        setState({
-            ...state,
+        setFormData({
+            ...formData,
             startDate: formattedDate
         })
     }
@@ -90,18 +105,31 @@ export default function Home(){
     const handleChange = (e) => {
         const value = e.target.value;
         const name = e.target.name;
-        setState({
-            ...state,
+        setFormData({
+            ...formData,
             [name]: value
         })
     }
 
     const onSubmit = (e) => {
         e.preventDefault();
+
+        if(!formData.state || !formData.department){
+            console.log("selectionnez blabla")
+        } else {
+            const newEmployeesList = [
+                ...state,
+                formData
+            ]
+
+            localStorage.setItem('employees', JSON.stringify(newEmployeesList));
+            
+            openModal(true);
+        }
+
         
-        console.log(state);
-        dispatch(addEmployee(state));
-        openModal(true);
+
+        
     }
 
     return(
@@ -111,38 +139,14 @@ export default function Home(){
             <h2>Create employee</h2>
             <form onSubmit={onSubmit}>
 
-                {/* <label >First Name</label>
-                <input 
-                    type="text"
-                    id="firstName"
-                    label="First Name"
-                    onChange={(e)=>setState({...state,firstName: e.target.value})}
-                ></input> */}
                 <Input2 type="text" name="firstName" label="First Name handleChange" onChange={handleChange}/>
-                
-                {/* <label>Last Name</label>
-                <input
-                    type="text"
-                    id="lastName"
-                    label="last Name"
-                    onChange={(e)=>setState({...state,lastName: e.target.value})}
-                ></input> */}
                 <Input2 type="text" name="lastName" label="Last Name handleChange" onChange={handleChange}/>
-                
-                
-                {/* <Input 
-                    id="date-of-birth" 
-                    label="Date of Birth" 
-                    value={calendar} 
-                    // className="inputBox"
-                    onClick={()=> setOpen(open => !open)}
-                /> */}
                 <Input2 
                     type="text"
                     name="date-of-birth" 
                     label="Date of Birth" 
-                    value={state.birthDate} 
-                    // className="inputBox"
+                    value={formData.birthDate} 
+                    className="inputBox"
                     onClick={() => setOpen(open => !open)}
                 />
                 <div ref={ref}>
@@ -154,20 +158,12 @@ export default function Home(){
                         />
                     }
                 </div>
-
-                {/* <Input 
-                    id="start-date" 
-                    label="Start Date"
-                    value={calendarStart} 
-                    // className="inputBox"
-                    onClick={()=> setCalendarStartOpen(calendarStartOpen => !calendarStartOpen)}
-                /> */}
                 <Input2 
                     type="text"
                     name="start-date" 
                     label="Start Date" 
-                    value={state.startDate} 
-                    // className="inputBox"
+                    value={formData.startDate} 
+                    className="inputBox"
                     onClick={()=> setCalendarStartOpen(calendarStartOpen => !calendarStartOpen)}
                 />
                 <div ref={ref}>
@@ -190,7 +186,7 @@ export default function Home(){
 
                     <label>State</label>
                     <Select
-                        onChange={(selectedOptionState)=>setState({...state,state: selectedOptionState.value})}
+                        onChange={(selectedOptionState)=>setFormData({...formData,state: selectedOptionState.value})}
                         options={[
                             {value: "Alabama", label: "Alabama"},
                             {value: "Alaska", label: "Alaska"},
@@ -203,15 +199,13 @@ export default function Home(){
                             {value: "Delaware", label: "Delaware"},
                             {value: "District Of Columbia", label: "District Of Columbia"},
                         ]}
-                    />
                         
-                    {/* <Input id="zip-code" label="Zip Code"/> */}
-                    <Input2 type="text" name="zip-code" label="Zip Code handleChange" onChange={handleChange}/>
-
+                    />
+                    <Input2 type="text" name="zipcode" label="Zip Code handleChange" onChange={handleChange}/>
                 </fieldset>
                 <label>Department</label>
                 <Select
-                    onChange={(selectedOptionDpt)=>setState({...state,department: selectedOptionDpt.value})}
+                    onChange={(selectedOptionDpt)=>setFormData({...formData,department: selectedOptionDpt.value})}
                     options={[
                         {value: "Sales", label: "Sales"},
                         {value: "Marketing", label: "Marketing"},
@@ -223,9 +217,7 @@ export default function Home(){
                 
                 <input type="submit"/>
             </form>
-            {/* <input type="submit" onClick={openModal} input="Save"/> */}
             {modalOpened ? (<Modal closeModal={closeModal} message="Employee created! "/>):(null)}
-            
         </div>
     )
 }

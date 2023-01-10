@@ -24,6 +24,7 @@
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.0",
+    "redux-persist": "^6.0.0",
     "table-react-component-library": "^1.0.9",
     "web-vitals": "^2.1.4"
   },

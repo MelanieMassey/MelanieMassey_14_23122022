@@ -1,48 +1,63 @@
 import { Link } from 'react-router-dom';
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import MaterialReactTable from 'material-react-table';
 import {mockedList} from '../Data/mockedEmployees';
+import { useSelector } from 'react-redux';
+// import * as employeesSlice from '../Feature/employeesSlice';
+import { employeesState } from '../Feature/employeesSlice';
 import "../App.css";
 
 export default function Employees2(){
+
+    const updatedEmployeesList = JSON.parse(localStorage.getItem('employees'));
+    console.log(updatedEmployeesList);
+
+    // useEffect(() => {
+    //     const updatedEmployeesList = JSON.parse(localStorage.getItem('employees'));
+    //     console.log(updatedEmployeesList);
+    // }, [])
+
     const employees = mockedList;
+    // const employeesList = useSelector((state) => state);
+    // const employeesList = useSelector(employeesState);
+    // console.log(employeesList);
 
     const columns = useMemo(
         () => [
         {
-            accessorKey: 'FirstName',
+            accessorKey: 'firstName',
             header: 'Firstname',
         },
         {
-            accessorKey: 'LastName',
+            accessorKey: 'lastName',
             header: 'Lastname',
         },
         {
-            accessorKey: 'BirthDate',
+            accessorKey: 'birthDate',
             header: 'Birthdate',
         },
         {
-            accessorKey: 'StartDate',
+            accessorKey: 'startDate',
             header: 'Start Date',
         },
         {
-            accessorKey: 'Street',
+            accessorKey: 'street',
             header: 'Street',
         },
         {
-            accessorKey: 'City',
+            accessorKey: 'city',
             header: 'City',
         },
         {
-            accessorKey: 'State',
+            accessorKey: 'state',
             header: 'State',
         },
         {
-            accessorKey: 'Zipcode',
+            accessorKey: 'zipcode',
             header: 'Zipcode',
         },
         {
-            accessorKey: 'Department',
+            accessorKey: 'department',
             header: 'Department',
         }
         ],
@@ -52,7 +67,7 @@ export default function Employees2(){
     return(
         <div className="list">
             <h1>Current Employees</h1>
-            <MaterialReactTable columns={columns} data={employees} enableColumnResizing columnResizeMode="onChange"/>;
+            <MaterialReactTable columns={columns} data={updatedEmployeesList} enableColumnResizing columnResizeMode="onChange"/>;
             <Link className="listContainer-link" to="/">Home</Link>
         </div>
     );
