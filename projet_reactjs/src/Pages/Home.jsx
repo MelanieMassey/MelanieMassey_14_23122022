@@ -1,14 +1,14 @@
 import "../App.css";
 
-import Button from "../Components/Button/Button";
 import Header from "../Components/Header/Header";
-import Input from "../Components/Input/Input";
+// import Input from "../Components/Input/Input";
 import Input2 from "../Components/Input2/Input2";
 import {Modal} from "melaniem-react-modal-component";
 import { useEffect, useState, useRef } from "react";
 import React from "react";
 import { Link } from 'react-router-dom';
 import {mockedList} from '../Data/mockedEmployees';
+import {states, departments} from '../Data/mockedForm';
 
 import { Calendar } from 'react-date-range';
 import format from 'date-fns/format';
@@ -37,10 +37,8 @@ export default function Home(){
     // State global
     const [state, setState] = useState({});
     
-
     // Récupération données formulaire "onChange"
     const [formData, setFormData] = useState({});
-    // console.log(state);
 
     //**  Gestion de la modale **//
     const [modalOpened, setModal] = useState(false);
@@ -54,9 +52,9 @@ export default function Home(){
     /** Calendrier date de naissance **/
     // const [calendar, setCalendar] = useState(""); // => Plus besoin avec "state" et "setState"
     const [open, setOpen] = useState(false);
-    
     const ref = useRef(null); // get the target element to toggle 
 
+    const ref2= useRef(null); // get the target element to toggle 
     
 
     const hideOnEscape = (e) => {
@@ -111,25 +109,22 @@ export default function Home(){
         })
     }
 
+    // states
+    // const formattedStates = states.map(item => ({value: item,label: item}));       
+    // console.log(formattedStates)
+
     const onSubmit = (e) => {
         e.preventDefault();
-
         if(!formData.state || !formData.department){
-            console.log("selectionnez blabla")
+            console.log("Sélectionnez un état et un département.")
         } else {
             const newEmployeesList = [
                 ...state,
                 formData
             ]
-
             localStorage.setItem('employees', JSON.stringify(newEmployeesList));
-            
-            openModal(true);
+            openModal();
         }
-
-        
-
-        
     }
 
     return(
@@ -140,6 +135,7 @@ export default function Home(){
             <form onSubmit={onSubmit}>
 
                 <Input2 type="text" name="firstName" label="First Name handleChange" onChange={handleChange}/>
+                
                 <Input2 type="text" name="lastName" label="Last Name handleChange" onChange={handleChange}/>
                 <Input2 
                     type="text"
@@ -166,7 +162,7 @@ export default function Home(){
                     className="inputBox"
                     onClick={()=> setCalendarStartOpen(calendarStartOpen => !calendarStartOpen)}
                 />
-                <div ref={ref}>
+                <div ref={ref2}>
                     {calendarStartOpen &&
                         <Calendar
                             date={ new Date()}
@@ -178,43 +174,20 @@ export default function Home(){
 
                 <fieldset>
                     <legend>Address</legend>
-                    {/* <Input id="street" label="Street"/> */}
                     <Input2 type="text" name="street" label="Street handleChange" onChange={handleChange}/>
-
-                    {/* <Input id="city" label="City"/> */}
                     <Input2 type="text" name="city" label="City handleChange" onChange={handleChange}/>
-
                     <label>State</label>
                     <Select
                         onChange={(selectedOptionState)=>setFormData({...formData,state: selectedOptionState.value})}
-                        options={[
-                            {value: "Alabama", label: "Alabama"},
-                            {value: "Alaska", label: "Alaska"},
-                            {value: "American Samoa", label: "American Samoa"},
-                            {value: "Arizona", label: "Arizona"},
-                            {value: "Arkansas", label: "Arkansas"},
-                            {value: "California", label: "California"},
-                            {value: "Colorado", label: "Colorado"},
-                            {value: "Connecticut", label: "Connecticut"},
-                            {value: "Delaware", label: "Delaware"},
-                            {value: "District Of Columbia", label: "District Of Columbia"},
-                        ]}
-                        
+                        options={states.map(item => ({value: item,label: item}))}
                     />
                     <Input2 type="text" name="zipcode" label="Zip Code handleChange" onChange={handleChange}/>
                 </fieldset>
                 <label>Department</label>
                 <Select
                     onChange={(selectedOptionDpt)=>setFormData({...formData,department: selectedOptionDpt.value})}
-                    options={[
-                        {value: "Sales", label: "Sales"},
-                        {value: "Marketing", label: "Marketing"},
-                        {value: "Engineering", label: "Engineering"},
-                        {value: "Human Resources", label: "Human Resources"},
-                        {value: "Legal", label: "Legal"}
-                    ]}
+                    options={departments.map(item => ({value: item, label: item}))}
                 />
-                
                 <input type="submit"/>
             </form>
             {modalOpened ? (<Modal closeModal={closeModal} message="Employee created! "/>):(null)}

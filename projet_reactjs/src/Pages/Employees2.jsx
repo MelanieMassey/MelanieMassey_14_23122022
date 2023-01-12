@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import MaterialReactTable from 'material-react-table';
 import {mockedList} from '../Data/mockedEmployees';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 // import * as employeesSlice from '../Feature/employeesSlice';
-import { employeesState } from '../Feature/employeesSlice';
+// import { employeesState } from '../Feature/employeesSlice';
 import "../App.css";
 
 export default function Employees2(){
@@ -17,7 +17,7 @@ export default function Employees2(){
     //     console.log(updatedEmployeesList);
     // }, [])
 
-    const employees = mockedList;
+    // const employees = mockedList;
     // const employeesList = useSelector((state) => state);
     // const employeesList = useSelector(employeesState);
     // console.log(employeesList);
